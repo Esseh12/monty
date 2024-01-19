@@ -18,13 +18,18 @@ int main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		dprintf(2, "USAGE: monty file\n", argv[0]);
+		dprintf(2, "USAGE: %s file\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 
 	file_name = argv[1];
 	fd = fopen(file_name, "r");
 
+	if (fd == NULL)
+	{
+		printf("Error: Can't open file %s\n", argv[0]);
+		exit(EXIT_FAILURE);
+	}
 	while (getline(&line_string, &n, fd) != -1)
 	{
 		printf("%s", line_string);
