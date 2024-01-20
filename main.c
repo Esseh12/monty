@@ -1,4 +1,6 @@
 #include "monty.h"
+#include "tokenize_line.c"
+#include "execute_instructions.c"
 
 /**
  * main: Entry point of program
@@ -15,6 +17,10 @@ int main(int argc, char **argv)
 	char *line_string;
 	size_t n = 0;
 	(void) argv;
+	int line_number = 0;
+	char *linecpy;
+
+	char *instructions_tok[1024];
 
 	if (argc != 2)
 	{
@@ -30,9 +36,19 @@ int main(int argc, char **argv)
 		printf("Error: Can't open file %s\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
+
 	while (getline(&line_string, &n, fd) != -1)
 	{
-		printf("%s", line_string);
+		/*linecpy = malloc(sizeof(char) * (strlen(line_string) + 1));
+		strcpy(linecpy, line_string);*/
+
+		line_number++;
+
+		tokenize_line(line_string, instructions_tok);
+		free(linecpy);
+
+		execute_instructions(instructions_tok, line_number);
 	}
-	return(0);
+
+	return (0);
 }
